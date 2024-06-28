@@ -1,0 +1,154 @@
+<?xml version="1.0"?><!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+<head>
+	<link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}" src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}" src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+	<#if .locale == "zh_CN">
+		<link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}" src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+	<#elseif .locale == "zh_TW">
+		<link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}" src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+	<#elseif .locale == "ja_JP">
+		<link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}" src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+	<#elseif .locale == "ko_KR">
+		<link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}" src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+	<#elseif .locale == "th_TH">
+		<link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+	</#if>
+    <style type="text/css">* {
+		<#if .locale == "zh_CN">
+			font-family: NotoSans, NotoSansCJKsc, sans-serif;
+		<#elseif .locale == "zh_TW">
+			font-family: NotoSans, NotoSansCJKtc, sans-serif;
+		<#elseif .locale == "ja_JP">
+			font-family: NotoSans, NotoSansCJKjp, sans-serif;
+		<#elseif .locale == "ko_KR">
+			font-family: NotoSans, NotoSansCJKkr, sans-serif;
+		<#elseif .locale == "th_TH">
+			font-family: NotoSans, NotoSansThai, sans-serif;
+		<#else>
+			<!-- font-family: NotoSans, sans-serif; -->
+		</#if>
+		}
+        .check table, .voucher1 table, .voucher2 table {
+            position: relative;
+            overflow: hidden;
+            font-size: 8pt;
+            padding: 0;
+        }
+		td p { align:left }
+      
+      * {
+        font-size: 10pt;
+      }
+</style>
+</head>
+<body 
+      padding="0.5in 0.5in 0.5in 0.5in" size="Letter">
+ 
+<div style="position: relative;font-family: Helvetica,sans-serif;top= -11pt;height: 250pt;width: 612pt;page-break-inside: avoid;font-size: 8pt;">
+<table style="width: 100%; height: 10pt;">
+  <tr>
+    <td align="center" style="font-size: 12pt; padding-right: 60px;"><b>Payment Voucher</b></td>
+  </tr>
+  <tr>
+    <td style="font-size: 8pt;"><b>${subsidiary.name}</b> <br/>  ${subsidiary.mainaddress_text}</td>
+  </tr>
+</table>
+  <table style="position: absolute;overflow: hidden;left: 55px;top: 130px;height: 18pt;width: 393pt;">
+  
+	<tr>
+		<td>${record.entity}</td>
+	</tr>
+</table>
+<table style="position: absolute;overflow: hidden;left: 480pt;top: 83px;height: 18pt;width: 111pt;">
+	<tr>
+		<td>${record.trandate}</td>
+	</tr>
+</table>
+<table style="position: absolute;overflow: hidden;left: 480pt;top: 130px;height: 18pt;width: 111pt;">
+	<tr>
+		<td>**<#if (record.usertotal?length > 0)>${record.usertotal?replace('$', '')}<#else>${record.total?replace('$', '')}</#if></td>
+	</tr>
+</table>
+<table style="position: absolute;overflow: hidden;left: 5pt;top: 163px;height: 18pt;width: 572pt;">
+	<tr>
+		<td>${record.totalwords}*********************************************************************</td>
+	</tr>
+</table>
+<table style="position: absolute;overflow: hidden;left: 55pt;top: 190px;height: 18pt;width: 572pt;">
+	<tr>
+		<td>${record.address}</td>
+	</tr>
+</table>
+<table style="position: absolute;overflow: hidden;left: 45px;top: 280px;height: 18pt;width: 572pt;">
+	<tr>
+      <td>${record.memo}</td>
+	</tr>
+</table>
+</div>
+
+<div style="position: relative;font-family: Helvetica,sans-serif;height: 250pt;width: 612pt;page-break-before: avoid;font-size: 8pt;">
+  <table style="position: absolute;overflow: hidden;left: 50pt;top: 10pt;height: 18pt;width: 572pt;">
+    <tr>
+      <td><b>${record.trandate}</b></td>
+    </tr>
+  </table>
+
+  <table style="position: absolute;overflow: hidden;left: 120pt;top: 10pt;height: 18pt;width: 572pt;">
+    <tr>
+      <td><b>${record.entity}</b></td>
+    </tr>
+  </table>
+ 
+  
+<#if record.item?has_content || record.expense?has_content || record.apply?has_content>
+
+<table style="position: absolute;overflow: hidden;left: 36pt;top: 50pt;width: 436pt;">
+	<#list record.apply as apply>
+		<tr>
+			<td>${apply.refnum}</td>
+			<td>${apply.type}</td>
+			<td>${apply.applydate}</td>
+			<td align="right">${apply.amount}</td>
+		</tr>
+	</#list>
+	<#list record.expense as expense>
+	<tr>
+	<td>${expense.account}</td>
+	<td>${expense.date}</td>
+	<td>${expense.description}</td>
+	<td align="right">${expense.amount}</td>
+	</tr>
+	</#list>
+	<#list record.item as item>
+	<tr>
+	<td>&nbsp;</td>
+	<td>${item.date}</td>
+	<td>${item.item}, ${item.description}</td>
+	<td align="right">${item.amount}</td>
+	</tr>
+	</#list>
+	</table>
+</#if>
+  
+  <table style="position: absolute;overflow: hidden;left: 30pt;top: 180pt;height: 18pt;width: 572pt;">
+    <tr>
+      <td><b>${record.account}</b></td>
+    </tr>
+  </table>
+
+<table style="position: absolute;overflow: hidden;left: 180pt;top: 180pt;height: 18pt;width: 572pt;">
+    <tr>
+      <td>${record.memo}</td>
+    </tr>
+  </table>
+  <table style="position: absolute;overflow: hidden;left: 500pt;top: 180pt;height: 18pt;width: 572pt;">
+    <tr>
+      <td>${record.total}</td>
+    </tr>
+</table>
+</div>
+
+
+
+</body>
+</pdf>
